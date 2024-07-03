@@ -1,12 +1,23 @@
+require('dotenv').config();
+
 const express = require('express');
 const axios = require('axios');
+const { Pool } = require('pg');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Use PORT from .env or default to 3000
 
 // Token Moodle
 const token = '61dfa0a4a688928c1a1065921f0910fe';
 
+const pool = new Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
+  });
+  
 // Endpoint untuk mendapatkan nilai
 app.get('/api/grades', async (req, res) => {
     const courseid = req.query.courseid;
@@ -216,6 +227,24 @@ app.get('/api/v1/attendances', async (req, res) => {
         res.status(500).json({ error: 'Terjadi kesalahan pada server.' });
     }
 });
+
+app.delete('/api/v1/delete-attempt', async (req, res) => {
+    const userId = req.query.userid;
+    
+    if (!userId) {
+      return res.status(400).send({ error: 'UserID is required' });
+    }
+  
+    try {
+      const deleteQuery = 'DELETE FROM dk_quiz_attempts WHERE userid = $1 AND sumgrades < 7';
+      await pool.query(deleteQuery, [userId]);
+      
+      res.status(200).send({ message: `Attempts for user with ID ${userId} and grade < 7 deleted successfully.` });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: 'An error occurred while deleting quiz attempts.' });
+    }
+  });
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
