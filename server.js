@@ -8,7 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000; // Use PORT from .env or default to 3000
 
 // Token Moodle
-const token = '61dfa0a4a688928c1a1065921f0910fe';
+const token = process.env.TOKEN;
 
 const pool = new Pool({
     user: process.env.DB_USER,
