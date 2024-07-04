@@ -233,14 +233,14 @@ app.delete('/v1/delete-attempt', async (req, res) => {
     const userId = req.query.userid;
     
     if (!userId) {
-      return res.status(400).send({ error: 'UserID is required' });
+      return res.status(400).send({ error: 'UserID is required', status: false });
     }
   
     try {
       const deleteQuery = 'DELETE FROM dk_quiz_attempts WHERE userid = $1 AND sumgrades < 7';
       await pool.query(deleteQuery, [userId]);
       
-      res.status(200).send({ message: `Attempts for user with ID ${userId} and grade < 7 deleted successfully.` });
+      res.status(200).send({ message: `Attempts for user with ID ${userId} and grade < 7 deleted successfully.`, status: true });
     } catch (error) {
       console.error(error);
       res.status(500).send({ error: 'An error occurred while deleting quiz attempts.' });
