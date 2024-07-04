@@ -19,7 +19,7 @@ const pool = new Pool({
   });
   
 // Endpoint untuk mendapatkan nilai
-app.get('/api/grades', async (req, res) => {
+app.get('/grades', async (req, res) => {
     const courseid = req.query.courseid;
 
     if (!courseid) {
@@ -66,7 +66,7 @@ app.get('/api/grades', async (req, res) => {
     }
 });
 
-app.get('/api/v1/grades', async (req, res) => {
+app.get('/v1/grades', async (req, res) => {
     const courseid = req.query.courseid;
     const useridnumber = req.query.useridnumber;
 
@@ -124,7 +124,7 @@ app.get('/api/v1/grades', async (req, res) => {
 });
 
 // Endpoint untuk mendapatkan attendance
-app.get('/api/attendances', async (req, res) => {
+app.get('/attendances', async (req, res) => {
     const courseid = req.query.courseid;
 
     if (!courseid) {
@@ -171,7 +171,7 @@ app.get('/api/attendances', async (req, res) => {
     }
 });
 
-app.get('/api/v1/attendances', async (req, res) => {
+app.get('/v1/attendances', async (req, res) => {
     const courseid = req.query.courseid;
     const useridnumber = req.query.useridnumber;
 
@@ -228,7 +228,7 @@ app.get('/api/v1/attendances', async (req, res) => {
     }
 });
 
-app.delete('/api/v1/delete-attempt', async (req, res) => {
+app.delete('/v1/delete-attempt', async (req, res) => {
     const userId = req.query.userid;
     
     if (!userId) {
