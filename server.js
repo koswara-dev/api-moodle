@@ -7,8 +7,9 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 3000; // Use PORT from .env or default to 3000
 
-// Token Moodle
+// Token Moodle and API URL
 const token = process.env.TOKEN;
+const baseApiUrl = process.env.MOODLE_API_URL;
 
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -26,7 +27,7 @@ app.get('/grades', async (req, res) => {
         return res.status(400).json({ error: 'Parameter courseid diperlukan.' });
     }
 
-    const apiUrl = `https://training.ptdika.com/webservice/rest/server.php?wstoken=${token}&moodlewsrestformat=json&wsfunction=gradereport_user_get_grade_items&courseid=${courseid}`;
+    const apiUrl = `${baseApiUrl}?wstoken=${token}&moodlewsrestformat=json&wsfunction=gradereport_user_get_grade_items&courseid=${courseid}`;
 
     try {
         const response = await axios.get(apiUrl);
@@ -74,7 +75,7 @@ app.get('/v1/grades', async (req, res) => {
         return res.status(400).json({ error: 'Parameter courseid diperlukan.' });
     }
 
-    const apiUrl = `https://training.ptdika.com/webservice/rest/server.php?wstoken=${token}&moodlewsrestformat=json&wsfunction=gradereport_user_get_grade_items&courseid=${courseid}`;
+    const apiUrl = `${baseApiUrl}?wstoken=${token}&moodlewsrestformat=json&wsfunction=gradereport_user_get_grade_items&courseid=${courseid}`;
 
     try {
         const response = await axios.get(apiUrl);
@@ -131,7 +132,7 @@ app.get('/attendances', async (req, res) => {
         return res.status(400).json({ error: 'Parameter courseid diperlukan.' });
     }
 
-    const apiUrl = `https://training.ptdika.com/webservice/rest/server.php?wstoken=${token}&moodlewsrestformat=json&wsfunction=gradereport_user_get_grade_items&courseid=${courseid}`;
+    const apiUrl = `${baseApiUrl}?wstoken=${token}&moodlewsrestformat=json&wsfunction=gradereport_user_get_grade_items&courseid=${courseid}`;
 
     try {
         const response = await axios.get(apiUrl);
@@ -179,7 +180,7 @@ app.get('/v1/attendances', async (req, res) => {
         return res.status(400).json({ error: 'Parameter courseid diperlukan.' });
     }
 
-    const apiUrl = `https://training.ptdika.com/webservice/rest/server.php?wstoken=${token}&moodlewsrestformat=json&wsfunction=gradereport_user_get_grade_items&courseid=${courseid}`;
+    const apiUrl = `${baseApiUrl}?wstoken=${token}&moodlewsrestformat=json&wsfunction=gradereport_user_get_grade_items&courseid=${courseid}`;
 
     try {
         const response = await axios.get(apiUrl);
